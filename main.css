@@ -1,0 +1,92 @@
+body{
+
+    background-color: #424242;
+    margin:0;
+}
+
+.head{
+    width: 100vw;
+    height: 100vh;
+    /* padding-top:50vh; */
+
+
+     background-image: url("images/cts.jpg");
+        /* opacity: .8; */
+    
+  
+    /* Create the parallax scrolling effect */
+    /* background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; */
+
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+
+.h1{
+    margin-top: 40vh;
+    width: 100vw;
+
+    background-color: black;
+    
+    opacity: .8;
+    /* font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, AppleGothic, sans-serif; */
+    font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+    font-weight: 300;
+
+    text-align: center;
+    font-size: 70px;
+    color: white;
+    position: absolute;
+}
+
+.banner{
+    width: 102vw;
+    height: 45vh;
+    background-color: #b2d6cc;
+}
+
+.holder{
+    width: 98vw;
+    height: 100vh;
+    display: inline-flex;
+    /* background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; */
+}
+
+.parallax {
+    margin:2%;
+    width: 45%;
+    height:100%;
+    /* The image used */
+    /* background-image: url("img_parallax.jpg"); */
+  
+    /* Set a specific height */
+    /* height: 500px; */
+  
+    /* Create the parallax scrolling effect */
+    /* background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; */
+}
+
+
+.text{
+    color: #ebe8e8;
+    margin: 2%;
+    margin-top: 25%;
+    width: 45%;
+}
+
+.render{
+    width: 45vw;
+    height: 60vh;
+
+}

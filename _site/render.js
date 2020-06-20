@@ -1,199 +1,229 @@
 
-			import * as THREE from '../build/three.module.js';
+import * as THREE from '../build/three.module.js';
 
-			import Stats from './jsm/libs/stats.module.js';
+import Stats from './jsm/libs/stats.module.js';
 
-			import { STLLoader } from './jsm/loaders/STLLoader.js';
+import { STLLoader } from './jsm/loaders/STLLoader.js';
 
-			var container, stats;
+var container, stats;
 
-			var camera, cameraTarget, scene, renderer;
+var camera, cameraTarget, scene, renderer;
 
-			init();
-			animate();
+init();
+animate();
 
-			function init() {
+function init() {
 
-				container = document.createElement( 'div' );
-				document.body.appendChild( container );
+    var main = document.getElementById("1");
 
-				camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 1, 15 );
-				camera.position.set( 3, 0.15, 3 );
+    container = document.createElement( 'div' );
+    // document.body.appendChild( container );
 
-				cameraTarget = new THREE.Vector3( 0, - 0.25, 0 );
+    main.appendChild( container );
 
-				scene = new THREE.Scene();
-				scene.background = new THREE.Color( 0x72645b );
-				scene.fog = new THREE.Fog( 0x72645b, 2, 15 );
 
+    camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 1, 15 );
+    camera.position.set( 3, 0.15, 3 );
 
-				// Ground
+    cameraTarget = new THREE.Vector3( 0, - 0.25, 0 );
 
-				var plane = new THREE.Mesh(
-					new THREE.PlaneBufferGeometry( 40, 40 ),
-					new THREE.MeshPhongMaterial( { color: 0x999999, specular: 0x101010 } )
-				);
-				plane.rotation.x = - Math.PI / 2;
-				plane.position.y = - 0.5;
-				scene.add( plane );
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color( 0xffffff );
+    // scene.fog = new THREE.Fog( 0xBDBDBD, 1, 15 );
 
-				plane.receiveShadow = true;
 
+    // Ground
 
-				// ASCII file
+    // var plane = new THREE.Mesh(
+    //     new THREE.PlaneBufferGeometry( 40, 40 ),
+    //     // new THREE.MeshPhongMaterial( { color: 0x999999, specular: 0x101010 } )
+    // );
+    // plane.rotation.x = - Math.PI / 2;
+    // plane.position.y = - 0.5;
+    // scene.add( plane );
 
-				var loader = new STLLoader();
-				loader.load( './models/stl/ascii/slotted_disk.stl', function ( geometry ) {
+    // plane.receiveShadow = true;
 
-					var material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
-					var mesh = new THREE.Mesh( geometry, material );
 
-					mesh.position.set( 0, - 0.25, 0.6 );
-					mesh.rotation.set( 0, - Math.PI / 2, 0 );
-					mesh.scale.set( 0.5, 0.5, 0.5 );
 
-					mesh.castShadow = true;
-					mesh.receiveShadow = true;
 
-					scene.add( mesh );
 
-				} );
+    // ASCII file
 
+    var loader = new STLLoader();
+    loader.load( './models/stl/ascii/slotted_disk.stl', function ( geometry ) {
 
-				// Binary files
+        var material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
+        var mesh = new THREE.Mesh( geometry, material );
 
-				var material = new THREE.MeshPhongMaterial( { color: 0xAAAAAA, specular: 0x111111, shininess: 200 } );
+        mesh.position.set( 0, - 0.25, 0.6 );
+        mesh.rotation.set( 0, - Math.PI / 2, 0 );
+        mesh.scale.set( 0.5, 0.5, 0.5 );
 
-				loader.load( './models/stl/binary/pr2_head_pan.stl', function ( geometry ) {
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
 
-					var mesh = new THREE.Mesh( geometry, material );
+        scene.add( mesh );
 
-					mesh.position.set( 0, - 0.37, - 0.6 );
-					mesh.rotation.set( - Math.PI / 2, 0, 0 );
-					mesh.scale.set( 2, 2, 2 );
+    } );
 
-					mesh.castShadow = true;
-					mesh.receiveShadow = true;
 
-					scene.add( mesh );
+    // Binary files
 
-				} );
+    var material = new THREE.MeshPhongMaterial( { color: 0xAAAAAA, specular: 0x111111, shininess: 200 } );
 
-				loader.load( './models/stl/binary/pr2_head_tilt.stl', function ( geometry ) {
+    // loader.load( './models/stl/binary/pr2_head_pan.stl', function ( geometry ) {
 
-					var mesh = new THREE.Mesh( geometry, material );
+    //     var mesh = new THREE.Mesh( geometry, material );
 
-					mesh.position.set( 0.136, - 0.37, - 0.6 );
-					mesh.rotation.set( - Math.PI / 2, 0.3, 0 );
-					mesh.scale.set( 2, 2, 2 );
+    //     mesh.position.set( 0, - 0.37, - 0.6 );
+    //     mesh.rotation.set( - Math.PI / 2, 0, 0 );
+    //     mesh.scale.set( 2, 2, 2 );
 
-					mesh.castShadow = true;
-					mesh.receiveShadow = true;
+    //     mesh.castShadow = true;
+    //     mesh.receiveShadow = true;
 
-					scene.add( mesh );
+    //     scene.add( mesh );
 
-				} );
+    // } );
 
-				// Colored binary STL
-				loader.load( './models/stl/binary/colored.stl', function ( geometry ) {
+    // loader.load( './models/stl/binary/pr2_head_tilt.stl', function ( geometry ) {
 
-					var meshMaterial = material;
-					if ( geometry.hasColors ) {
+    //     var mesh = new THREE.Mesh( geometry, material );
 
-						meshMaterial = new THREE.MeshPhongMaterial( { opacity: geometry.alpha, vertexColors: true } );
+    //     mesh.position.set( 0.136, - 0.37, - 0.6 );
+    //     mesh.rotation.set( - Math.PI / 2, 0.3, 0 );
+    //     mesh.scale.set( 2, 2, 2 );
 
-					}
+    //     mesh.castShadow = true;
+    //     mesh.receiveShadow = true;
 
-					var mesh = new THREE.Mesh( geometry, meshMaterial );
+    //     scene.add( mesh );
 
-					mesh.position.set( 0.5, 0.2, 0 );
-					mesh.rotation.set( - Math.PI / 2, Math.PI / 2, 0 );
-					mesh.scale.set( 0.3, 0.3, 0.3 );
+    // } );
 
-					mesh.castShadow = true;
-					mesh.receiveShadow = true;
 
-					scene.add( mesh );
+    loader.load( './models/stl/binary/top_skeleton.stl', function ( geometry ) {
 
-				} );
+        console.log("loaded")
 
+        var mat = new THREE.MeshPhongMaterial( { color: 0x101010, specular: 0x111111, shininess: 200 } );
 
-				// Lights
+        var mesh = new THREE.Mesh( geometry, mat );
 
-				scene.add( new THREE.HemisphereLight( 0x443333, 0x111122 ) );
+        
+        mesh.position.set( 0, - 0.37, - 0.6 );
+        mesh.rotation.set( - Math.PI / 2, 0, 0 );
+        mesh.scale.set( 0.3, 0.3, 0.3 );
 
-				addShadowedLight( 1, 1, 1, 0xffffff, 1.35 );
-				addShadowedLight( 0.5, 1, - 1, 0xffaa00, 1 );
-				// renderer
+        // mesh.castShadow = true;
+        // mesh.receiveShadow = true;
 
-				renderer = new THREE.WebGLRenderer( { antialias: true } );
-				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				renderer.outputEncoding = THREE.sRGBEncoding;
+        scene.add( mesh );
 
-				renderer.shadowMap.enabled = true;
+    } );
 
-				container.appendChild( renderer.domElement );
 
-				// stats
+    // Colored binary STL
+    loader.load( './models/stl/binary/colored.stl', function ( geometry ) {
 
-				stats = new Stats();
-				container.appendChild( stats.dom );
+        var meshMaterial = material;
+        if ( geometry.hasColors ) {
 
-				//
+            meshMaterial = new THREE.MeshPhongMaterial( { opacity: geometry.alpha, vertexColors: true } );
 
-				window.addEventListener( 'resize', onWindowResize, false );
+        }
 
-			}
+        var mesh = new THREE.Mesh( geometry, meshMaterial );
 
-			function addShadowedLight( x, y, z, color, intensity ) {
+        mesh.position.set( 0.5, 0.2, 0 );
+        mesh.rotation.set( - Math.PI / 2, Math.PI / 2, 0 );
+        mesh.scale.set( 0.3, 0.3, 0.3 );
 
-				var directionalLight = new THREE.DirectionalLight( color, intensity );
-				directionalLight.position.set( x, y, z );
-				scene.add( directionalLight );
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
 
-				directionalLight.castShadow = true;
+        scene.add( mesh );
 
-				var d = 1;
-				directionalLight.shadow.camera.left = - d;
-				directionalLight.shadow.camera.right = d;
-				directionalLight.shadow.camera.top = d;
-				directionalLight.shadow.camera.bottom = - d;
+    } );
 
-				directionalLight.shadow.camera.near = 1;
-				directionalLight.shadow.camera.far = 4;
 
-				directionalLight.shadow.bias = - 0.002;
+    // Lights
 
-			}
+    scene.add( new THREE.HemisphereLight( 0x443333, 0x111122 ) );
 
-			function onWindowResize() {
+    addShadowedLight( 1, 1, 1, 0xffffff, 1.35 );
+    addShadowedLight( 0.5, 1, - 1, 0xffaa00, 1 );
+    // renderer
 
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.outputEncoding = THREE.sRGBEncoding;
 
-				renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.shadowMap.enabled = true;
 
-			}
+    container.appendChild( renderer.domElement );
 
-			function animate() {
+    // stats
 
-				requestAnimationFrame( animate );
+    stats = new Stats();
+    // container.appendChild( stats.dom );
 
-				render();
-				stats.update();
+    //
 
-			}
+    window.addEventListener( 'resize', onWindowResize, false );
 
-			function render() {
+}
 
-				var timer = Date.now() * 0.0005;
+function addShadowedLight( x, y, z, color, intensity ) {
 
-				camera.position.x = Math.cos( timer ) * 3;
-				camera.position.z = Math.sin( timer ) * 3;
+    var directionalLight = new THREE.DirectionalLight( color, intensity );
+    directionalLight.position.set( x, y, z );
+    scene.add( directionalLight );
 
-				camera.lookAt( cameraTarget );
+    directionalLight.castShadow = true;
 
-				renderer.render( scene, camera );
+    var d = 1;
+    directionalLight.shadow.camera.left = - d;
+    directionalLight.shadow.camera.right = d;
+    directionalLight.shadow.camera.top = d;
+    directionalLight.shadow.camera.bottom = - d;
 
-			}
+    directionalLight.shadow.camera.near = 1;
+    directionalLight.shadow.camera.far = 4;
+
+    directionalLight.shadow.bias = - 0.002;
+
+}
+
+function onWindowResize() {
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+function animate() {
+
+    requestAnimationFrame( animate );
+
+    render();
+    stats.update();
+
+}
+
+function render() {
+
+    var timer = Date.now() * 0.0005;
+
+    camera.position.x = Math.cos( timer ) * 3;
+    camera.position.z = Math.sin( timer ) * 3;
+
+    camera.lookAt( cameraTarget );
+
+    renderer.render( scene, camera );
+
+}
